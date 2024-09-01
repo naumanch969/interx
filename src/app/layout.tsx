@@ -7,7 +7,7 @@ import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Slack",
+  title: "InterX",
   description: "A new way to communicate with your team",
 };
 
