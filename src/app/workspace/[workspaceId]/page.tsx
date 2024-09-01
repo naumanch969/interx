@@ -1,15 +1,18 @@
-import React from 'react'
+"use client"
 
-interface Props {
-    params: {
-        workspaceId: string
-    }
-}
+import { useWorkspaceId } from "@/app/hooks/use-workspace-id"
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace"
+import { useParams } from "next/navigation"
 
-const Workspace = ({ params: { workspaceId } }: Props) => {
+const Workspace = () => {
+
+    const workspaceId = useWorkspaceId()
+    const { data } = useGetWorkspace({ id: workspaceId })
+
+
     return (
         <div className='' >
-            id: {workspaceId}
+            id: {data?.name}
         </div>
     )
 }
