@@ -3,6 +3,7 @@ import { defineSchema } from "convex/server";
 
 const schema = defineSchema({
     ...authTables,
+    
 })
 
 export default schema
