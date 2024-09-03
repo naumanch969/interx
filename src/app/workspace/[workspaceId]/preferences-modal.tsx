@@ -46,9 +46,8 @@ const PreferencesModal = ({ open, setOpen, initialValue }: Props) => {
     }
 
     const onRemove = async () => {
-        console.log('remove')
-        const ok = await confirm()
 
+        const ok = await confirm()
         if (!ok) return
 
         removeWorkspace(
@@ -110,7 +109,7 @@ const PreferencesModal = ({ open, setOpen, initialValue }: Props) => {
                             </DialogContent>
                         </Dialog>
                         <Button
-                            disabled={false}
+                            disabled={isRemovingWorkspace}
                             onClick={onRemove}
                             className='flex items-cnter gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 text-rose-600'
                         >
