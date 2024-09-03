@@ -15,7 +15,7 @@ export const create = mutation({
     args: { name: v.string() },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error('Unauthorized')
+        if (!userId) throw new Error('Unauthenticated')
 
         const joinCode = generateCode()
         const workspaceId = await ctx.db.insert('workspaces', {
@@ -62,7 +62,7 @@ export const getById = query({
     args: { id: v.id("workspaces") },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthorized")
+        if (!userId) throw new Error("Unauthenticated")
 
         const member = await ctx.db
             .query('members')
@@ -74,5 +74,65 @@ export const getById = query({
         const workspace = await ctx.db.get(member.workspaceId)
 
         return workspace
+    }
+})
+
+export const update = mutation({
+    args: {
+        id: v.id("workspaces"),
+        name: v.string()
+    },
+    handler: async (ctx, args) => {
+
+        const userId = await auth.getUserId(ctx)
+        if (!userId) throw new Error("Unauthenticated")
+
+        const member = await ctx.db
+            .query('members')
+            .withIndex('by_workspace_id_user_id', q => q.eq('userId', userId).eq('workspaceId', args.id))
+            .unique()
+
+        if (!member || member.role != 'admin')
+            throw new Error('Unauthorized')
+
+        await ctx.db.patch(args.id, { name: args.name })
+
+        return args.id
+    }
+})
+
+export const remove = mutation({
+    args: {
+        id: v.id("workspaces"),
+    },
+    handler: async (ctx, args) => {
+
+        const userId = await auth.getUserId(ctx)
+        if (!userId) throw new Error("Unauthenticated")
+
+        const member = await ctx.db
+            .query('members')
+            .withIndex('by_workspace_id_user_id', q => q.eq('userId', userId).eq('workspaceId', args.id))
+            .unique()
+
+        if (!member || member.role != 'admin')
+            throw new Error('Unauthorized')
+
+        const [members] = await Promise.all([
+            ctx.db
+                .query('members')
+                .withIndex('by_workspace_id', q => q.eq('workspaceId', args.id))
+                .collect()
+        ])
+
+        // Removing all members
+        for (const member of members) {
+            await ctx.db.delete(member._id)
+        }
+
+        // Removing workspace
+        await ctx.db.delete(args.id)
+
+        return args.id
     }
 })

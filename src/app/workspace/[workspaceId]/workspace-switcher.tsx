@@ -1,4 +1,4 @@
-import { useWorkspaceId } from '@/app/hooks/use-workspace-id'
+import { useWorkspaceId } from '@/hooks/use-workspace-id'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useGetWorkspace } from '@/features/workspaces/api/use-get-workspace'
