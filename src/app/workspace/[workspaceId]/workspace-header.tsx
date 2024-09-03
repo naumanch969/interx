@@ -7,6 +7,7 @@ import { useGetWorkspace } from '@/features/workspaces/api/use-get-workspace'
 import { ChevronDown, ListFilter, SquarePen } from 'lucide-react'
 import React, { useState } from 'react'
 import PreferencesModal from './preferences-modal'
+import InviteModal from './invite-modal'
 
 const WorkspaceHeader = () => {
 
@@ -16,10 +17,14 @@ const WorkspaceHeader = () => {
     const isAdmin = member?.role == 'admin'
 
     const [openPreferences, setOpenPreferences] = useState(false)
+    const [openInvite, setOpenInvite] = useState(false)
 
     return (
         <>
+          
+            <InviteModal open={openInvite} setOpen={setOpenInvite} name={workspace?.name!} joinCode={workspace?.joinCode!}  />
             <PreferencesModal open={openPreferences} setOpen={setOpenPreferences} initialValue={workspace?.name!} />
+          
             <div className='flex items-center justify-between px-4 h-[49px] gap-0.5' >
 
                 <DropdownMenu>
@@ -43,7 +48,7 @@ const WorkspaceHeader = () => {
                             isAdmin &&
                             <>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => { }} className='cursor-pointer py-2' >
+                                <DropdownMenuItem onClick={() => setOpenInvite(true)} className='cursor-pointer py-2' >
                                     Invite people to {workspace?.name}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
