@@ -36,7 +36,7 @@ const SidebarItem = ({ icon: Icon, id, label, variant }: Props) => {
 
     return (
         <Button variant='transparent' size='sm' asChild className={cn(sidebarItemVariants({ variant }))} >
-            <Link href={`/workspace/${workspaceId}/channel/${id}`} >
+            <Link href={`/workspace/${workspaceId}/channel/${id}`} shallow={true} >
                 <Icon className='size-3.5 mr-1 shrink-0 ' />
                 <span className="text-sm truncate">{label}</span>
             </Link>
