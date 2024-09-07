@@ -6,6 +6,8 @@ import ChannelHero from './channel-hero'
 import { Id } from '../../convex/_generated/dataModel'
 import { useWorkspaceId } from '@/hooks/use-workspace-id'
 import { useCurrentMember } from '@/features/members/api/use-current-member'
+import { Button } from './ui/button'
+import { Loader } from 'lucide-react'
 
 interface Props {
     memberName?: string,
@@ -32,7 +34,7 @@ const MessageList = ({
     memberName,
     variant
 }: Props) => {
-console.log('data',data)
+    console.log('data', data)
     const workspaceId = useWorkspaceId()
     const { data: currentMember } = useCurrentMember({ workspaceId })
 
@@ -51,7 +53,7 @@ console.log('data',data)
         }
         return groups
     }, {} as Record<string, typeof data>)
-console.log('group', groupedMessages)
+
     const formatDateLabel = (dateKey: string) => {
         const date = new Date(dateKey)
         if (isToday(date)) return 'Today'
@@ -106,7 +108,29 @@ console.log('group', groupedMessages)
                     </div>
                 ))
             }
-
+            <div className='h-1' ref={(el) => {
+                if (el) {
+                    const observer = new IntersectionObserver(
+                        ([entry]) => {
+                            if (entry.isIntersecting && canLoadMore) {
+                                loadMore()
+                            }
+                        },
+                        { threshold: 1.0 }
+                    )
+                    observer.observe(el)
+                    return () => observer.disconnect()
+                }
+            }} />
+            {
+                isLoadingMore &&
+                <div className="text-center my-2 relative">
+                    <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+                    <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm ">
+                        <Loader className='size-4 animate-spin' />
+                    </span>
+                </div>
+            }
             {
                 variant == 'channel' && channelName && channelCreationTime &&
                 <ChannelHero
