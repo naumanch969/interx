@@ -3,7 +3,10 @@ import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type ResponseType = string | null
+type RequestType = {
+    id: Id<"messages">,
+}
+type ResponseType = Id<"messages"> | null
 
 type Options = {
     onSuccess?: (data: ResponseType) => void
@@ -12,27 +15,27 @@ type Options = {
     throwError?: Boolean
 }
 
-export const useGenerateUploadUrl = () => {
+export const useRemoveMessage = () => {
 
     const [data, setData] = useState<ResponseType>(null)
     const [error, setError] = useState<Error | null>(null)
     const [state, setState] = useState<"success" | "error" | "settled" | "pending" | null>(null)
 
-    const mutation = useMutation(api.upload.generateUploadUrl)
+    const mutation = useMutation(api.messages.remove)
 
     const isPending = useMemo(() => state == 'pending', [state])
     const isSuccess = useMemo(() => state == 'success', [state])
     const isError = useMemo(() => state == 'error', [state])
     const isSettled = useMemo(() => state == 'settled', [state])
 
-    const mutate = useCallback(async (_values: {}, options?: Options) => {
+    const mutate = useCallback(async (values: RequestType, options?: Options) => {
         try {
 
             setData(null)
             setError(null)
             setState('pending')
 
-            const response = await mutation()
+            const response = await mutation(values)
             options?.onSuccess?.(response)
         }
         catch (error) {

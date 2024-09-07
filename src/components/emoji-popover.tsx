@@ -22,7 +22,7 @@ const EmojiPopover = ({ children, onEmojiSelect, hint = 'Emoji' }: Props) => {
         setTimeout(() => {
             setTooltipOpen(false)
         }, 500)
-        
+
     }
 
     return (
@@ -30,7 +30,7 @@ const EmojiPopover = ({ children, onEmojiSelect, hint = 'Emoji' }: Props) => {
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen} >
                 <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen} delayDuration={50} >
                     <PopoverTrigger asChild>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                             {children}
                         </TooltipTrigger>
                     </PopoverTrigger>
