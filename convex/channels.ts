@@ -119,7 +119,14 @@ export const remove = mutation({
 
         await ctx.db.delete(args.id)
 
-        // TODO: Remove associated messages
+        const messages = await ctx.db
+            .query('messages')
+            .withIndex('by_channel_id', q => q.eq('channelId', args.id))
+            .collect()
+
+        for (const message of messages) {
+            await ctx.db.delete(message._id)
+        }
 
         return args.id
     }

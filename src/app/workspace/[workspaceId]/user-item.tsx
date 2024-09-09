@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useWorkspaceId } from '@/hooks/use-workspace-id'
 
 const userItemVariants = cva(
-    'flex items-center justify-start gap-1.5 font-normal h-7 px-4 text-sm overflow-hidden',
+    'flex items-center justify-start gap-1.5 font-normal h-7 px-[18px] text-sm overflow-hidden',
     {
         variants: {
             variant: {
@@ -40,7 +40,7 @@ const UserItem = ({ id, image, label, variant }: Props) => {
                     <AvatarImage src={image} className='rounded-md' />
                     <AvatarFallback className='rounded-md shrink-0 bg-sky-500 text-white text-xs' >{label?.charAt(0)?.toUpperCase()}</AvatarFallback>
                 </Avatar>
-                <span className="text-sm truncate text-white">{label}</span>
+                <span className="text-sm truncate">{label}</span>
             </Link>
         </Button>
     )

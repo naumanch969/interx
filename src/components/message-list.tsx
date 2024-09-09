@@ -8,6 +8,8 @@ import { useWorkspaceId } from '@/hooks/use-workspace-id'
 import { useCurrentMember } from '@/features/members/api/use-current-member'
 import { Button } from './ui/button'
 import { Loader } from 'lucide-react'
+import { TIME_THRESHOLD } from '@/constants'
+import ConversationHero from './conversation-hero'
 
 interface Props {
     memberName?: string,
@@ -21,8 +23,6 @@ interface Props {
     canLoadMore: boolean
 }
 
-const TIME_THRESHOLD = 5
-
 const MessageList = ({
     canLoadMore,
     data,
@@ -34,7 +34,7 @@ const MessageList = ({
     memberName,
     variant
 }: Props) => {
-    console.log('data', data)
+
     const workspaceId = useWorkspaceId()
     const { data: currentMember } = useCurrentMember({ workspaceId })
 
@@ -95,6 +95,7 @@ const MessageList = ({
                                         threadCount={message?.threadCount}
                                         threadImage={message?.threadImage}
                                         threadTimestamp={message?.threadTimestamp}
+                                        threadName={message?.threadName}
                                         hideThreadButton={variant == 'thread'}
                                         isEditing={editingId == message?._id!}
                                         setEditingId={setEditingId}
@@ -136,6 +137,13 @@ const MessageList = ({
                 <ChannelHero
                     name={channelName}
                     creationTime={channelCreationTime}
+                />
+            }
+            {
+                variant == 'conversation' &&
+                <ConversationHero
+                    name={memberName}
+                    image={memberImage!}
                 />
             }
 

@@ -14,6 +14,8 @@ import { useRemoveMessage } from '@/features/messages/api/use-delete-message'
 import { useConfirm } from '@/hooks/use-confirm'
 import { useToggleReaction } from '@/features/reactions/api/use-toggle-reaction'
 import Reactions from './reactions'
+import { usePanel } from '@/hooks/use-panel'
+import Threadbar from './threadbar'
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false })
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false })
@@ -35,6 +37,7 @@ interface Props {
     threadCount?: number
     threadImage?: string
     threadTimestamp?: number
+    threadName?: string
     isAuthor: boolean
 }
 
@@ -56,9 +59,10 @@ const Message = ({
     threadCount,
     threadImage,
     threadTimestamp,
+    threadName
 }: Props) => {
 
-
+    const { parentMessageId, onOpenMessage, onClose: onCloseThread, onOpenProfile } = usePanel()
     const [ConfirmDialog, confirm] = useConfirm("Delete message", "Are you sure you want to delete this message? This cannot be undone.")
 
     const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage()
@@ -66,7 +70,7 @@ const Message = ({
     const { mutate: toggleReaction, isPending: isTogglingReaction } = useToggleReaction()
 
 
-    const isPending = isUpdatingMessage
+    const isPending = isUpdatingMessage || isTogglingReaction
 
     const formatFullTime = (date: Date) => {
         return `${isToday(date) ? 'Today' : isYesterday(date) ? 'Yesterday' : format(date, 'MMM d, yyyy')} at ${format(date, 'h:mm:ss a')}`
@@ -96,7 +100,7 @@ const Message = ({
             {
                 onSuccess() {
                     toast.success('Message deleted')
-                    // TODO: close thread if open
+                    if (parentMessageId == id) onCloseThread()
                 },
                 onError() {
                     toast.error("Failed to delete message")
@@ -148,6 +152,13 @@ const Message = ({
                                     <Thumbnail url={image} />
                                     {updatedAt && <span className='text-xs text-muted-foreground' >edited</span>}
                                     <Reactions data={reactions} onChange={onReaction} />
+                                    <Threadbar
+                                        count={threadCount}
+                                        name={threadName}
+                                        image={threadImage}
+                                        timestamp={threadTimestamp}
+                                        onClick={() => onOpenMessage(id)}
+                                    />
                                 </div>
                         }
                     </div>
@@ -158,7 +169,7 @@ const Message = ({
                             isAuthor={isAuthor}
                             isPending={isPending}
                             handleEdit={() => setEditingId(id)}
-                            handleThread={() => { }}
+                            handleThread={() => onOpenMessage(id)}
                             handleDelete={onDelete}
                             handleReaction={onReaction}
                             hideThreadButton={hideThreadButton}
@@ -178,7 +189,7 @@ const Message = ({
                 isRemovingMessage && 'bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200'
             )} >
                 <div className="flex items-start gap-2">
-                    <button>
+                    <button onClick={() => onOpenProfile(memberId)} >
                         <Avatar>
                             <AvatarImage src={authorImage} alt={authorName} />
                             <AvatarFallback>
@@ -201,7 +212,7 @@ const Message = ({
                             :
                             <div className="flex flex-col w-full overflow-hidden ">
                                 <div className="text-sm">
-                                    <button onClick={() => { }} className='font-bold text-primary hover:underline' >{authorName}</button>
+                                    <button onClick={() => onOpenProfile(memberId)} className='font-bold text-primary hover:underline' >{authorName}</button>
                                     <span className="">&nbsp;&nbsp;</span>
                                     <Hint label={formatFullTime(new Date(createdAt))} >
                                         <button className='text-xs text-muted-foreground hover:underline' >
@@ -213,6 +224,13 @@ const Message = ({
                                 <Thumbnail url={image} />
                                 {updatedAt && <span className='text-xs text-muted-foreground' >edited</span>}
                                 <Reactions data={reactions} onChange={onReaction} />
+                                <Threadbar
+                                    count={threadCount}
+                                    name={threadName}
+                                    image={threadImage}
+                                    timestamp={threadTimestamp}
+                                    onClick={() => onOpenMessage(id)}
+                                />
                             </div>
                     }
                 </div>
@@ -223,7 +241,7 @@ const Message = ({
                         isAuthor={isAuthor}
                         isPending={isPending}
                         handleEdit={() => setEditingId(id)}
-                        handleThread={() => { }}
+                        handleThread={() => onOpenMessage(id)}
                         handleDelete={onDelete}
                         handleReaction={onReaction}
                         hideThreadButton={hideThreadButton}
