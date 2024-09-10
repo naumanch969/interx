@@ -33,11 +33,9 @@ export const useGenerateUploadUrl = () => {
             setState('pending')
 
             const response = await mutation()
-            console.log('response', response)
             options?.onSuccess?.(response)
         }
         catch (error) {
-            console.log('error', error)
             setState("error")
             options?.onError?.(error as Error)
             if (options?.throwError) throw error;

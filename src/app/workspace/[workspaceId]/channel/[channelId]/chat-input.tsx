@@ -24,10 +24,10 @@ interface Props {
 const ChatInput = ({ placeholder }: Props) => {
 
     const editorRef = useRef<Quill | null>(null)
-    const { mutate } = useCreateMessage()
     const workspaceId = useWorkspaceId()
     const channelId = useChannelId()
-
+    
+    const { mutate } = useCreateMessage()
     const { mutate: generateUploadUrl } = useGenerateUploadUrl()
 
     const [editorKey, setEditorKey] = useState(0)

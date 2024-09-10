@@ -75,6 +75,9 @@ body,
   }
 }
 
+
+
+/* Editor */
 .ql-toolbar {
   border: none !important;
   background-color: #f8f8f8 !important;
@@ -120,4 +123,12 @@ body,
   font-size: 14px !important;
   font-weight: 400 !important;
   @apply truncate
+}
+
+
+
+/* MessageList */
+.messages-scrollbar{
+  scrollbar-width: thin;
+  scrollbar-color: #bcbcbc #f8f8f8;
 }
