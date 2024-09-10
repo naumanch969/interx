@@ -42,7 +42,8 @@ const Reactions = ({ data, onChange }: Props) => {
                     </Hint>
                 ))
             }
-            <EmojiPopover hint='Add reaction' onEmojiSelect={emoji => onChange(emoji.native)} >
+            {/* <EmojiPopover hint='Add reaction' onEmojiSelect={emoji => onChange(emoji)} > */}
+            <EmojiPopover hint='Add reaction' onEmojiSelect={emoji => onChange(emoji)} >
                 <button title='Add reaction' className='h-7 px-3 rounded-full bg-slate-200/70 bordre border-transparent hover:border-slate-500 flex items-center gap-x-1 ' >
                     <MdOutlineAddReaction className='size-4' />
                 </button>

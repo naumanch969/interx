@@ -22,6 +22,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "convex": "^1.15.0",
     "date-fns": "^3.6.0",
     "emoji-picker-react": "^4.12.0",
@@ -37,6 +38,7 @@
     "react-resizable-panels": "^2.1.2",
     "react-use": "^17.5.1",
     "react-verification-input": "^4.1.2",
+    "slack": "file:",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"

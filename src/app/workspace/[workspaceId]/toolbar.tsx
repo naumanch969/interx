@@ -27,7 +27,6 @@ const Toolbar = () => {
     const { data: channels } = useGetChannels({ workspaceId })
     const { data: members } = useGetMembers({ workspaceId })
 
-
     const onChannelClick = (channelId: string) => {
         setOpen(false)
         router.push(`/workspace/${workspaceId}/channel/${channelId}`)
@@ -53,8 +52,8 @@ const Toolbar = () => {
                     <CommandList>
                         <CommandEmpty>No results found</CommandEmpty>
                         <CommandGroup heading='Channels' >
-                            {channels &&
-                                channels.map((channel, index) => (
+                            {
+                                channels?.map((channel, index) => (
                                     <CommandItem onSelect={() => onChannelClick(channel._id)} key={index} >
                                         {channel.name}
                                     </CommandItem>
@@ -63,9 +62,9 @@ const Toolbar = () => {
                         </CommandGroup>
                         <CommandSeparator />
                         <CommandGroup heading='Members'>
-                            {members &&
-                                members.map((member, index) => (
-                                    <CommandItem onSelect={() => onMemberClick(member._id)} key={index} asChild>
+                            {
+                                members?.map((member, index) => (
+                                    <CommandItem onSelect={() => onMemberClick(member._id)} key={index} >
                                         {member.user.name}
                                     </CommandItem>
                                 ))

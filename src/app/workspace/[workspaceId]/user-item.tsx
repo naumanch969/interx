@@ -23,19 +23,17 @@ const userItemVariants = cva(
 )
 
 interface Props {
-    id: Id<"members">,
     label?: string,
     image?: string,
-    variant?: VariantProps<typeof userItemVariants>["variant"]
+    variant?: VariantProps<typeof userItemVariants>["variant"],
+    link: string
 }
 
-const UserItem = ({ id, image, label, variant }: Props) => {
-
-    const workspaceId = useWorkspaceId()
+const UserItem = ({ link, image, label, variant }: Props) => {
 
     return (
         <Button variant='transparent' size='sm' asChild className={cn(userItemVariants({ variant }))} >
-            <Link href={`/workspace/${workspaceId}/member/${id}`} >
+            <Link href={link} >
                 <Avatar className='size-5 rounded-md mr-1' >
                     <AvatarImage src={image} className='rounded-md' />
                     <AvatarFallback className='rounded-md shrink-0 bg-sky-500 text-white text-xs' >{label?.charAt(0)?.toUpperCase()}</AvatarFallback>

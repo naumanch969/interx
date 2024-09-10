@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useWorkspaceId } from '@/hooks/use-workspace-id';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import Hint from '@/components/hint';
 
 
 const sidebarItemVariants = cva(
@@ -25,18 +26,17 @@ const sidebarItemVariants = cva(
 
 interface Props {
     label: string,
-    id: string,
     icon: LucideIcon | IconType
-    variant?: VariantProps<typeof sidebarItemVariants>["variant"]
+    variant?: VariantProps<typeof sidebarItemVariants>["variant"],
+    link: string,
+    role?: 'admin' | 'member'
 }
 
-const SidebarItem = ({ icon: Icon, id, label, variant }: Props) => {
-
-    const workspaceId = useWorkspaceId()
+const SidebarItem = ({ icon: Icon, label, variant, role, link }: Props) => {
 
     return (
-        <Button variant='transparent' size='sm' asChild className={cn(sidebarItemVariants({ variant }))} >
-            <Link href={`/workspace/${workspaceId}/channel/${id}`} shallow={true} >
+        <Button variant='transparent' size='sm' asChild className={cn('flex justify-between items-center', sidebarItemVariants({ variant }))} >
+            <Link href={link} shallow={true} >
                 <Icon className='size-3.5 mr-1 shrink-0 ' />
                 <span className="text-sm truncate">{label}</span>
             </Link>
