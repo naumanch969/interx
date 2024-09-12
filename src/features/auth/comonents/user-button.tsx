@@ -10,11 +10,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useCurrentUser } from '../api/useCurrentUser'
 import { Loader, LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useAuthActions } from '@convex-dev/auth/react'
 
 const UserButton = () => {
 
     const { signOut } = useAuthActions()
+    const router = useRouter()
     const { data, isLoading } = useCurrentUser()
 
     if (isLoading) return <Loader className='size-4 animate-spin text-muted-foreground' />
@@ -23,6 +25,13 @@ const UserButton = () => {
     const { name, image } = data
 
     // TODO: add pending state in signout
+
+    const onSignOut = () => {
+        signOut()
+            .then(() => {
+                router.push('/auth')
+            })
+    }
 
     return (
         <DropdownMenu>
@@ -35,7 +44,7 @@ const UserButton = () => {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align='center' side='right' className='w-60' >
-                <DropdownMenuItem onClick={() => signOut()} className='h-10' >
+                <DropdownMenuItem onClick={onSignOut} className='h-10' >
                     <LogOut className='size-4 mr-2' /> Logout
                 </DropdownMenuItem>
             </DropdownMenuContent>
