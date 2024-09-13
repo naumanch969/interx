@@ -28,9 +28,6 @@ const UserButton = () => {
 
     const onSignOut = () => {
         signOut()
-            .then(() => {
-                router.push('/auth')
-            })
     }
 
     return (
