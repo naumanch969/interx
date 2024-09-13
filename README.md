@@ -2,6 +2,10 @@
 
 **InterX** is a collaborative communication platform designed for teams, providing sound features such as workspaces, channels, direct messaging, and a rich text editor for customizable chat. Inspired by Slack, but with its own unique approach to enhancing team interactions.
 
+## Live Demo
+
+Check out the live demo of interX [here](https://interx.vercel.app/).
+
 ## Features
 
 ### 1. **User Authentication**
