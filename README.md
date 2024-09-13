@@ -117,14 +117,14 @@ npm start
 
 ```bash
 .
-├── /convex         # Convex DB setup and queries
+├── /convex             # Convex DB setup and queries
 ├── /src/components     # React components for the UI
 ├── /src/app            # Next.js pages for routing
 ├── /src/constants      # All of project constants
 ├── /src/features       # API features and hooks
 ├── /src/hooks          # Custom hooks
 ├── /src/lib            # Utilities
-├── /public         # Public assets
+├── /public             # Public assets
 ```
 
 ## Deployment
