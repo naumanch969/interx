@@ -34,7 +34,7 @@ const Header = ({ title }: Props) => {
 
     const onOpenEditDialog = (value: boolean) => {
         if (member?.role != 'admin') return
-        setEditOpen(true)
+        setEditOpen(value)
     }
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
