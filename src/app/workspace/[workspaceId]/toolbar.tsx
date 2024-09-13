@@ -16,6 +16,8 @@ import {
 import { useGetMembers } from '@/features/members/api/use-get-members'
 import { useGetChannels } from '@/features/channels/api/use-get-channels'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const Toolbar = () => {
 
@@ -39,7 +41,15 @@ const Toolbar = () => {
     return (
         <div className='bg-[#481349] flex justify-between items-center h-10 p-1.5 ' >
 
-            <div className="flex-1 " />
+            <div className="flex-1 flex justify-start ">
+                <Link href='/' className="w-36 h-8 relative ml-2 ">
+                    <Image
+                        src='/logo_without_tagline.png'
+                        alt='Logo'
+                        layout='fill'
+                    />
+                </Link>
+            </div>
 
             <div className="min-w-[280px] max-w-[642px] grow-[2] shrink">
                 <Button onClick={() => setOpen(true)} size='sm' className='bg-accent/25 hover:bg-accent-25 w-full flex justify-start h-7 px-2' >
