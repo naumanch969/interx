@@ -11,7 +11,7 @@ const AuthScreen = () => {
     const [state, setState] = useState<SignInFlow>("signIn")
 
     return (
-        <div className='h-full flex flex-col justify-center items-center gap-6 bg-[#5c3856] ' >
+        <div className='h-full flex flex-col justify-center items-center gap-6 bg-purple ' >
 
             <div className="w-60 h-20 relative ">
                 <Image
